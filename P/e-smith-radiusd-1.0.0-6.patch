@@ -1,0 +1,53 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-radiusd-1.0.0/createlinks mezzanine_patched_e-smith-radiusd-1.0.0/createlinks
+--- e-smith-radiusd-1.0.0/createlinks	2005-07-03 16:36:46.107338440 -0600
++++ mezzanine_patched_e-smith-radiusd-1.0.0/createlinks	2005-07-03 16:36:34.700494280 -0600
+@@ -8,14 +8,15 @@
+ foreach (qw(raddb/radiusd.conf raddb/users))
+ {
+     templates2events("/etc/$_", qw(
+-	console-save
+ 	bootstrap-console-save
++	console-save
++	password-modify
+ 	remoteaccess-update
+ 	user-create
++	user-delete
++	user-lock
+ 	user-modify
+ 	user-modify-admin
+-	user-delete
+-	password-modify
+     ));
+ }
+ 
+@@ -28,22 +29,25 @@
+     radiusclient/dictionary.microsoft))
+ {
+     templates2events("/etc/$_", qw(
+-	console-save
+ 	bootstrap-console-save
+-	remoteaccess-update
++	console-save
+ 	domain-modify
++	remoteaccess-update
+     ldap-update
+     ));
+ }
+ 
+ foreach $event ( qw(
+-    console-save
+-    remoteaccess-update
++	console-save
+ 	domain-modify
++	ldap-update
++	password-modify
++	remoteaccess-update
+ 	user-create
++	user-delete
++	user-lock
+ 	user-modify
+ 	user-modify-admin
+-	user-delete
+             ) )
+ {
+     safe_symlink("sigterm", "root/etc/e-smith/events/$event/services2adjust/radiusd");
