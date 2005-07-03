@@ -1,0 +1,13 @@
+Index: e-smith-radiusd/createlinks
+diff -u e-smith-radiusd/createlinks:1.3 e-smith-radiusd/createlinks:1.4
+--- e-smith-radiusd/createlinks:1.3	Thu Jun 16 14:37:13 2005
++++ e-smith-radiusd/createlinks	Fri Jun 24 16:05:56 2005
+@@ -15,6 +15,7 @@
+ 	user-modify
+ 	user-modify-admin
+ 	user-delete
++	password-modify
+     ));
+ }
+ 
+Index: e-smith-radiusd/e-smith-radiusd.spec

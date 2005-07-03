@@ -1,0 +1,29 @@
+Index: e-smith-radiusd/e-smith-radiusd.spec
+diff -u /dev/null e-smith-radiusd/root/etc/e-smith/templates/etc/raddb/clients.conf/20local:1.1
+--- /dev/null	Fri Jun 24 15:02:36 2005
++++ e-smith-radiusd/root/etc/e-smith/templates/etc/raddb/clients.conf/20local	Fri Jun 24 15:02:13 2005
+@@ -0,0 +1,24 @@
++{
++    use esmith::HostsDB;
++    my $hostsdb = esmith::HostsDB->open;
++
++    # Handle each defined virtual domain
++    foreach my $host ($hostsdb->get_all_by_prop(HostType => "Local"))
++    {
++	$radiuskey = $host->prop('RadiusKey') || undef;
++	next unless defined $radiuskey;
++
++	$hostname = $host->key;
++	$hostname =~ s/\..*//;
++	$hostip = $host->prop('InternalIP') || '127.0.0.1';
++	$nastype = $host->prop('NASType') || 'other';
++
++	$OUT .= <<EOF;
++client $hostip \{
++	secret = $radiuskey
++	shortname = $hostname
++	nastype = $nastype
++\}
++EOF
++    }
++}
