@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - configure PPTP inbound VPN
 %define name e-smith-radiusd
 Name: %{name}
 %define version 1.0.0
-%define release 6
+%define release 5sme01
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -13,7 +13,7 @@ Patch0: e-smith-radiusd-1.0.0-2.mitel_patch
 Patch1: e-smith-radiusd-1.0.0-3.mitel_patch
 Patch2: e-smith-radiusd-1.0.0-4.mitel_patch
 Patch3: e-smith-radiusd-1.0.0-5.mitel_patch
-Patch4: e-smith-radiusd-1.0.0-6.patch
+Patch4: e-smith-radiusd-1.0.0-5sme01.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: e-smith-base >= 4.13.16-27
 Requires: kernel => 2.4
@@ -28,7 +28,7 @@ e-smith server and gateway - configure radius server
 
 %changelog
 * Sun Jul 03 2005 Shad L. Lords <slords@mail.com>
-- [1.0.0-6]
+- [1.0.0-5sme01]
 - Expand /etc/raddb/users in user-lock [SF: 1225995]
 - Expand sigterm in password-modify, ldap-update [SF: 1225995]
 
