@@ -18,3 +18,9 @@ Sat Jul 16 10:23:22 2005                           Shad Lords (slords)
 sync with e-smith-radiusd-1.0.0-6
 
 ----------------------------------------------------------------------
+Sat Jul 16 11:05:33 2005                           Shad Lords (slords)
+
+Add accounting into radiusd
+Let radius do it own normal logging
+
+----------------------------------------------------------------------

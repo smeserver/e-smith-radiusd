@@ -1,0 +1,133 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/25modules45acctUnique mezzanine_patched_e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/25modules45acctUnique
+--- e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/25modules45acctUnique	1969-12-31 17:00:00.000000000 -0700
++++ mezzanine_patched_e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/25modules45acctUnique	2005-07-16 10:48:51.177193696 -0600
+@@ -0,0 +1,13 @@
++{
++	# Create a unique accounting session Id.  Many NASes re-use or
++	# repeat values for Acct-Session-Id, causing no end of
++	# confusion.
++	#
++	#  This module will add a (probably) unique session id 
++	#  to an accounting packet based on the attributes listed
++	#  below found in the packet.  See doc/rlm_acct_unique for
++	#  more information.
++	#
++}	acct_unique \{
++		key = "User-Name, Acct-Session-Id, NAS-IP-Address, Client-IP-Address, NAS-Port"
++	\}
+diff -Nur -x '*.orig' -x '*.rej' e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/25modules50detail mezzanine_patched_e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/25modules50detail
+--- e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/25modules50detail	1969-12-31 17:00:00.000000000 -0700
++++ mezzanine_patched_e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/25modules50detail	2005-07-16 10:50:46.047578408 -0600
+@@ -0,0 +1,36 @@
++{
++	# Write a detailed log of all accounting records received.
++	#
++}	detail \{
++{		#  Note that we do NOT use NAS-IP-Address here, as
++		#  that attribute MAY BE from the originating NAS, and
++		#  NOT from the proxy which actually sent us the
++		#  request.  The Client-IP-Address attribute is ALWAYS
++		#  the address of the client which sent us the
++		#  request.
++		#
++		#  The following line creates a new detail file for
++		#  every radius client (by IP address or hostname).
++		#  In addition, a new detail file is created every
++		#  day, so that the detail file doesn't have to go
++		#  through a 'log rotation'
++		#
++		#  If your detail files are large, you may also want
++		#  to add a ':%H' (see doc/variables.txt) to the end
++		#  of it, to create a new detail file every hour, e.g.:
++		#
++		#   ..../detail-%Y%m%d:%H
++		#
++		#  This will create a new detail file for every hour.
++		#
++}		detailfile = $\{logdir\}/accounting.log
++{
++		#
++		#  The Unix-style permissions on the 'detail' file.
++		#
++		#  The detail file often contains secret or private
++		#  information about users.  So by keeping the file
++		#  permissions restrictive, we can prevent unwanted
++		#  people from seeing that information.
++}		detailperm = 0600
++	\}
+diff -Nur -x '*.orig' -x '*.rej' e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/75preacct mezzanine_patched_e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/75preacct
+--- e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/75preacct	1969-12-31 17:00:00.000000000 -0700
++++ mezzanine_patched_e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/75preacct	2005-07-16 10:53:56.083788104 -0600
+@@ -0,0 +1,17 @@
++{
++#
++#  Pre-accounting.  Decide which accounting type to use.
++#
++}preacct \{
++	preprocess
++{
++	#
++	#  Ensure that we have a semi-unique identifier for every
++	#  request, and many NAS boxes are broken.
++}	acct_unique
++{
++	#  Accounting requests are generally proxied to the same
++	#  home server as authentication requests.
++}	suffix
++	ntdomain
++\}
+diff -Nur -x '*.orig' -x '*.rej' e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/80accounting mezzanine_patched_e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/80accounting
+--- e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/80accounting	1969-12-31 17:00:00.000000000 -0700
++++ mezzanine_patched_e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/80accounting	2005-07-16 10:54:54.886577064 -0600
+@@ -0,0 +1,11 @@
++{
++#
++#  Accounting.  Log the accounting data.
++#
++}accounting \{
++{	#
++	#  Create a 'detail'ed log of the packets.
++	#  Note that accounting requests which are proxied
++	#  are also logged in the detail file.
++}	detail
++\}
+diff -Nur -x '*.orig' -x '*.rej' e-smith-radiusd-1.0.0/root/var/service/radiusd/log/run mezzanine_patched_e-smith-radiusd-1.0.0/root/var/service/radiusd/log/run
+--- e-smith-radiusd-1.0.0/root/var/service/radiusd/log/run	2005-06-13 10:04:02.000000000 -0600
++++ mezzanine_patched_e-smith-radiusd-1.0.0/root/var/service/radiusd/log/run	1969-12-31 17:00:00.000000000 -0700
+@@ -1,27 +0,0 @@
+-#!/bin/sh
+-
+-#----------------------------------------------------------------------
+-# copyright (C) 1999-2003 Mitel Networks Corporation
+-#
+-# This program is free software; you can redistribute it and/or modify
+-# it under the terms of the GNU General Public License as published by
+-# the Free Software Foundation; either version 2 of the License, or
+-# (at your option) any later version.
+-#
+-# This program is distributed in the hope that it will be useful,
+-# but WITHOUT ANY WARRANTY; without even the implied warranty of
+-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-# GNU General Public License for more details.
+-#
+-# You should have received a copy of the GNU General Public License
+-# along with this program; if not, write to the Free Software
+-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+-#
+-# Technical support for this program is available from Mitel Networks
+-# Please visit our web site www.mitel.com/sme/ for details.
+-#----------------------------------------------------------------------
+-
+-exec                                    \
+-    /usr/local/bin/setuidgid smelog     \
+-    /usr/local/bin/multilog t s5000000  \
+-    /var/log/radiusd
+diff -Nur -x '*.orig' -x '*.rej' e-smith-radiusd-1.0.0/root/var/service/radiusd/run mezzanine_patched_e-smith-radiusd-1.0.0/root/var/service/radiusd/run
+--- e-smith-radiusd-1.0.0/root/var/service/radiusd/run	2005-06-13 10:05:13.000000000 -0600
++++ mezzanine_patched_e-smith-radiusd-1.0.0/root/var/service/radiusd/run	2005-07-16 10:55:53.638524816 -0600
+@@ -11,4 +11,4 @@
+ # Configure cert
+ ./control/1
+ 
+-exec /usr/sbin/radiusd -s -f -x
++exec /usr/sbin/radiusd -f

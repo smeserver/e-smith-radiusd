@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - configure PPTP inbound VPN
 %define name e-smith-radiusd
 Name: %{name}
 %define version 1.0.0
-%define release 6
+%define release 6sme01
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -14,6 +14,7 @@ Patch1: e-smith-radiusd-1.0.0-3.mitel_patch
 Patch2: e-smith-radiusd-1.0.0-4.mitel_patch
 Patch3: e-smith-radiusd-1.0.0-5.mitel_patch
 Patch4: e-smith-radiusd-1.0.0-6.mitel_patch
+Patch5: e-smith-radiusd-1.0.0-accounting.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: e-smith-base >= 4.13.16-27
 Requires: kernel => 2.4
@@ -27,6 +28,11 @@ BuildArchitectures: noarch
 e-smith server and gateway - configure radius server
 
 %changelog
+* Sat Jul 16 2005 Shad L. Lords <slords@mail.com>
+- [1.0.0-6sme01]
+- Add accounting into radiusd
+- Let radius do it own normal logging
+
 * Tue Jul 12 2005 Charlie Brady <charlieb@e-smith.com>
 - [1.0.0-6]
 - Expand /etc/raddb/users in user-lock [SF: 1225995]
@@ -61,6 +67,7 @@ e-smith server and gateway - configure radius server
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %build
 perl createlinks
@@ -69,8 +76,6 @@ mkdir -p root/service
 ln -s ../var/service/radiusd root/service/radiusd
 mkdir -p root/var/service/radiusd/supervise
 touch root/var/service/radiusd/down
-mkdir -p root/var/service/radiusd/log/supervise
-mkdir -p root/var/log/radiusd
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -80,11 +85,7 @@ rm -f %{name}-%{version}-%{release}-filelist
     --dir /var/service/radiusd 'attr(01755,root,root)' \
     --file /var/service/radiusd/down 'attr(0644,root,root)' \
     --file /var/service/radiusd/run 'attr(0755,root,root)' \
-    --dir /var/service/radiusd/log 'attr(0755,root,root)' \
-    --dir /var/service/radiusd/log/supervise 'attr(0700,root,root)' \
     --dir /var/service/radiusd/supervise 'attr(0700,root,root)' \
-    --file /var/service/radiusd/log/run 'attr(0755,root,root)' \
-    --dir /var/log/radiusd 'attr(2750,smelog,smelog)' \
     > %{name}-%{version}-%{release}-filelist
 echo "%doc COPYING" >> %{name}-%{version}-%{release}-filelist
 
