@@ -1,6 +1,7 @@
-diff -Nur -x '*.orig' -x '*.rej' e-smith-radiusd-1.0.0/createlinks mezzanine_patched_e-smith-radiusd-1.0.0/createlinks
---- e-smith-radiusd-1.0.0/createlinks	2005-07-03 16:36:46.107338440 -0600
-+++ mezzanine_patched_e-smith-radiusd-1.0.0/createlinks	2005-07-03 16:36:34.700494280 -0600
+Index: e-smith-radiusd/createlinks
+diff -u e-smith-radiusd/createlinks:1.4 e-smith-radiusd/createlinks:1.5
+--- e-smith-radiusd/createlinks:1.4	Fri Jun 24 16:05:56 2005
++++ e-smith-radiusd/createlinks	Tue Jul 12 15:03:44 2005
 @@ -8,14 +8,15 @@
  foreach (qw(raddb/radiusd.conf raddb/users))
  {
@@ -51,3 +52,4 @@ diff -Nur -x '*.orig' -x '*.rej' e-smith-radiusd-1.0.0/createlinks mezzanine_pat
              ) )
  {
      safe_symlink("sigterm", "root/etc/e-smith/events/$event/services2adjust/radiusd");
+Index: e-smith-radiusd/e-smith-radiusd.spec
