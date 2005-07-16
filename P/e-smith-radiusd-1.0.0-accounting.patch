@@ -125,9 +125,16 @@ diff -Nur -x '*.orig' -x '*.rej' e-smith-radiusd-1.0.0/root/var/service/radiusd/
 diff -Nur -x '*.orig' -x '*.rej' e-smith-radiusd-1.0.0/root/var/service/radiusd/run mezzanine_patched_e-smith-radiusd-1.0.0/root/var/service/radiusd/run
 --- e-smith-radiusd-1.0.0/root/var/service/radiusd/run	2005-06-13 10:05:13.000000000 -0600
 +++ mezzanine_patched_e-smith-radiusd-1.0.0/root/var/service/radiusd/run	2005-07-16 10:55:53.638524816 -0600
+@@ -1,6 +1,5 @@
+ #!/bin/sh
+ 
+-exec 2>&1
+ # Ensure that PRNG is adequately seeded.
+ [ -s /etc/raddb/certs/dh ] ||\
+   /usr/local/bin/envuidgid stunnel \
 @@ -11,4 +11,4 @@
  # Configure cert
  ./control/1
  
 -exec /usr/sbin/radiusd -s -f -x
-+exec /usr/sbin/radiusd -f
++exec /usr/sbin/radiusd -f >&2

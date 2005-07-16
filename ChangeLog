@@ -24,3 +24,8 @@ Add accounting into radiusd
 Let radius do it own normal logging
 
 ----------------------------------------------------------------------
+Sat Jul 16 12:49:45 2005                           Shad Lords (slords)
+
+Fix logging
+
+----------------------------------------------------------------------
