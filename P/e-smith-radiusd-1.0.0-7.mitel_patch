@@ -1,6 +1,7 @@
-diff -Nur -x '*.orig' -x '*.rej' e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/25modules45acctUnique mezzanine_patched_e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/25modules45acctUnique
---- e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/25modules45acctUnique	1969-12-31 17:00:00.000000000 -0700
-+++ mezzanine_patched_e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/25modules45acctUnique	2005-07-16 10:48:51.177193696 -0600
+Index: e-smith-radiusd/e-smith-radiusd.spec
+diff -u /dev/null e-smith-radiusd/root/etc/e-smith/templates/etc/raddb/radiusd.conf/25modules45acctUnique:1.1
+--- /dev/null	Mon Jul 18 14:00:43 2005
++++ e-smith-radiusd/root/etc/e-smith/templates/etc/raddb/radiusd.conf/25modules45acctUnique	Mon Jul 18 13:59:21 2005
 @@ -0,0 +1,13 @@
 +{
 +	# Create a unique accounting session Id.  Many NASes re-use or
@@ -15,9 +16,10 @@ diff -Nur -x '*.orig' -x '*.rej' e-smith-radiusd-1.0.0/root/etc/e-smith/template
 +}	acct_unique \{
 +		key = "User-Name, Acct-Session-Id, NAS-IP-Address, Client-IP-Address, NAS-Port"
 +	\}
-diff -Nur -x '*.orig' -x '*.rej' e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/25modules50detail mezzanine_patched_e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/25modules50detail
---- e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/25modules50detail	1969-12-31 17:00:00.000000000 -0700
-+++ mezzanine_patched_e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/25modules50detail	2005-07-16 10:50:46.047578408 -0600
+Index: e-smith-radiusd/root/etc/e-smith/templates/etc/raddb/radiusd.conf/25modules50detail
+diff -u /dev/null e-smith-radiusd/root/etc/e-smith/templates/etc/raddb/radiusd.conf/25modules50detail:1.1
+--- /dev/null	Mon Jul 18 14:00:43 2005
++++ e-smith-radiusd/root/etc/e-smith/templates/etc/raddb/radiusd.conf/25modules50detail	Mon Jul 18 13:59:22 2005
 @@ -0,0 +1,36 @@
 +{
 +	# Write a detailed log of all accounting records received.
@@ -55,9 +57,10 @@ diff -Nur -x '*.orig' -x '*.rej' e-smith-radiusd-1.0.0/root/etc/e-smith/template
 +		#  people from seeing that information.
 +}		detailperm = 0600
 +	\}
-diff -Nur -x '*.orig' -x '*.rej' e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/75preacct mezzanine_patched_e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/75preacct
---- e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/75preacct	1969-12-31 17:00:00.000000000 -0700
-+++ mezzanine_patched_e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/75preacct	2005-07-16 10:53:56.083788104 -0600
+Index: e-smith-radiusd/root/etc/e-smith/templates/etc/raddb/radiusd.conf/75preacct
+diff -u /dev/null e-smith-radiusd/root/etc/e-smith/templates/etc/raddb/radiusd.conf/75preacct:1.1
+--- /dev/null	Mon Jul 18 14:00:43 2005
++++ e-smith-radiusd/root/etc/e-smith/templates/etc/raddb/radiusd.conf/75preacct	Mon Jul 18 13:59:22 2005
 @@ -0,0 +1,17 @@
 +{
 +#
@@ -76,9 +79,10 @@ diff -Nur -x '*.orig' -x '*.rej' e-smith-radiusd-1.0.0/root/etc/e-smith/template
 +}	suffix
 +	ntdomain
 +\}
-diff -Nur -x '*.orig' -x '*.rej' e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/80accounting mezzanine_patched_e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/80accounting
---- e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/80accounting	1969-12-31 17:00:00.000000000 -0700
-+++ mezzanine_patched_e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/80accounting	2005-07-16 10:54:54.886577064 -0600
+Index: e-smith-radiusd/root/etc/e-smith/templates/etc/raddb/radiusd.conf/80accounting
+diff -u /dev/null e-smith-radiusd/root/etc/e-smith/templates/etc/raddb/radiusd.conf/80accounting:1.1
+--- /dev/null	Mon Jul 18 14:00:43 2005
++++ e-smith-radiusd/root/etc/e-smith/templates/etc/raddb/radiusd.conf/80accounting	Mon Jul 18 13:59:22 2005
 @@ -0,0 +1,11 @@
 +{
 +#
@@ -91,9 +95,27 @@ diff -Nur -x '*.orig' -x '*.rej' e-smith-radiusd-1.0.0/root/etc/e-smith/template
 +	#  are also logged in the detail file.
 +}	detail
 +\}
-diff -Nur -x '*.orig' -x '*.rej' e-smith-radiusd-1.0.0/root/var/service/radiusd/log/run mezzanine_patched_e-smith-radiusd-1.0.0/root/var/service/radiusd/log/run
---- e-smith-radiusd-1.0.0/root/var/service/radiusd/log/run	2005-06-13 10:04:02.000000000 -0600
-+++ mezzanine_patched_e-smith-radiusd-1.0.0/root/var/service/radiusd/log/run	1969-12-31 17:00:00.000000000 -0700
+Index: e-smith-radiusd/root/var/service/radiusd/run
+diff -u e-smith-radiusd/root/var/service/radiusd/run:1.1.1.1 e-smith-radiusd/root/var/service/radiusd/run:1.2
+--- e-smith-radiusd/root/var/service/radiusd/run:1.1.1.1	Mon Jun 13 15:10:16 2005
++++ e-smith-radiusd/root/var/service/radiusd/run	Mon Jul 18 13:59:22 2005
+@@ -1,6 +1,5 @@
+ #!/bin/sh
+ 
+-exec 2>&1
+ # Ensure that PRNG is adequately seeded.
+ [ -s /etc/raddb/certs/dh ] ||\
+   /usr/local/bin/envuidgid stunnel \
+@@ -11,4 +10,4 @@
+ # Configure cert
+ ./control/1
+ 
+-exec /usr/sbin/radiusd -s -f -x
++exec /usr/sbin/radiusd -f >&2
+Index: e-smith-radiusd/root/var/service/radiusd/log/run
+diff -u e-smith-radiusd/root/var/service/radiusd/log/run:1.1.1.1 e-smith-radiusd/root/var/service/radiusd/log/run:removed
+--- e-smith-radiusd/root/var/service/radiusd/log/run:1.1.1.1	Mon Jun 13 15:10:16 2005
++++ e-smith-radiusd/root/var/service/radiusd/log/run	Wed Dec 31 19:00:00 1969
 @@ -1,27 +0,0 @@
 -#!/bin/sh
 -
@@ -122,19 +144,3 @@ diff -Nur -x '*.orig' -x '*.rej' e-smith-radiusd-1.0.0/root/var/service/radiusd/
 -    /usr/local/bin/setuidgid smelog     \
 -    /usr/local/bin/multilog t s5000000  \
 -    /var/log/radiusd
-diff -Nur -x '*.orig' -x '*.rej' e-smith-radiusd-1.0.0/root/var/service/radiusd/run mezzanine_patched_e-smith-radiusd-1.0.0/root/var/service/radiusd/run
---- e-smith-radiusd-1.0.0/root/var/service/radiusd/run	2005-06-13 10:05:13.000000000 -0600
-+++ mezzanine_patched_e-smith-radiusd-1.0.0/root/var/service/radiusd/run	2005-07-16 10:55:53.638524816 -0600
-@@ -1,6 +1,5 @@
- #!/bin/sh
- 
--exec 2>&1
- # Ensure that PRNG is adequately seeded.
- [ -s /etc/raddb/certs/dh ] ||\
-   /usr/local/bin/envuidgid stunnel \
-@@ -11,4 +11,4 @@
- # Configure cert
- ./control/1
- 
--exec /usr/sbin/radiusd -s -f -x
-+exec /usr/sbin/radiusd -f >&2
