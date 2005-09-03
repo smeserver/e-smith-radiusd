@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - configure PPTP inbound VPN
 %define name e-smith-radiusd
 Name: %{name}
 %define version 1.0.0
-%define release 7
+%define release 8
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -28,6 +28,10 @@ BuildArchitectures: noarch
 e-smith server and gateway - configure radius server
 
 %changelog
+* Fri Sep  2 2005 Charlie Brady <charlieb@e-smith.com>
+- [1.0.0-8]
+- Make sure that stunnel user exists, by %pre script.
+
 * Mon Jul 18 2005 Charlie Brady <charlieb@e-smith.com>
 - [1.0.0-7]
 - [More updates from Shad.]
@@ -91,6 +95,10 @@ rm -f %{name}-%{version}-%{release}-filelist
 echo "%doc COPYING" >> %{name}-%{version}-%{release}-filelist
 
 %postun
+
+%pre
+/sbin/e-smith/create-system-user stunnel %{stunnelid} \
+    'chrooted stunnel user user' /var/log/imap/ssl /bin/false
 
 %clean 
 rm -rf $RPM_BUILD_ROOT
