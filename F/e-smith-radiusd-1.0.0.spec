@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - configure PPTP inbound VPN
 %define name e-smith-radiusd
 Name: %{name}
 %define version 1.0.0
-%define release 8
+%define release 12
 Version: %{version}
 Release: %{release}
 License: GPL
@@ -15,6 +15,8 @@ Patch2: e-smith-radiusd-1.0.0-4.mitel_patch
 Patch3: e-smith-radiusd-1.0.0-5.mitel_patch
 Patch4: e-smith-radiusd-1.0.0-6.mitel_patch
 Patch5: e-smith-radiusd-1.0.0-7.mitel_patch
+Patch6: e-smith-radiusd-1.0.0-9.mitel_patch
+Patch7: e-smith-radiusd-1.0.0-11.mitel_patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: e-smith-base >= 4.13.16-27
 Requires: kernel => 2.4
@@ -23,11 +25,30 @@ Requires: freeradius >= 1.0.1
 Requires: radiusclient >= 0.3.2
 BuildRequires: e-smith-devtools >= 1.13.1-03
 BuildArchitectures: noarch
+%define stunnelid 451
 
 %description
 e-smith server and gateway - configure radius server
 
 %changelog
+* Wed Nov 30 2005 Gordon Rowell <gordonr@gormand.com.au> 1.0.0-12
+- Bump release number only
+
+* Tue Sep 27 2005 Charlie Brady <charlieb@e-smith.com>
+- [1.0.0-11]
+- Fix run script so that output actually goes to the logger. [SF: 1280982]
+
+* Mon Sep 26 2005 Charlie Brady <charlieb@e-smith.com>
+- [1.0.0-10]
+- Make sure that the log/run script is executable, and that
+  the log directory exists. [SF: 1280982]
+- Make sure that stunnel user exists, by making sure that
+  %pre script works :-) (%stunnelid was not defined).
+
+* Mon Sep 26 2005 Gordon Rowell <gordonr@e-smith.com>
+- [1.0.0-9]
+- Add a log/run script [SF: 1280982]
+
 * Fri Sep  2 2005 Charlie Brady <charlieb@e-smith.com>
 - [1.0.0-8]
 - Make sure that stunnel user exists, by %pre script.
@@ -73,6 +94,8 @@ e-smith server and gateway - configure radius server
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
+%patch7 -p1
 
 %build
 perl createlinks
@@ -81,6 +104,7 @@ mkdir -p root/service
 ln -s ../var/service/radiusd root/service/radiusd
 mkdir -p root/var/service/radiusd/supervise
 touch root/var/service/radiusd/down
+mkdir -p root/var/log/radiusd
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -90,7 +114,9 @@ rm -f %{name}-%{version}-%{release}-filelist
     --dir /var/service/radiusd 'attr(01755,root,root)' \
     --file /var/service/radiusd/down 'attr(0644,root,root)' \
     --file /var/service/radiusd/run 'attr(0755,root,root)' \
+    --file /var/service/radiusd/log/run 'attr(0755,root,root)' \
     --dir /var/service/radiusd/supervise 'attr(0700,root,root)' \
+    --dir /var/log/radiusd 'attr(0755,smelog,smelog)' \
     > %{name}-%{version}-%{release}-filelist
 echo "%doc COPYING" >> %{name}-%{version}-%{release}-filelist
 
