@@ -4,10 +4,10 @@ Name: %{name}
 %define version 1.0.0
 %define release 12
 Version: %{version}
-Release: %{release}
+Release: %smerelease %{release}
+Packager: %{_packager}
 License: GPL
 Group: Networking/Daemons
-Packager: e-smith developers <bugs@e-smith.com>
 Source: %{name}-%{version}.tar.gz
 Patch0: e-smith-radiusd-1.0.0-2.mitel_patch
 Patch1: e-smith-radiusd-1.0.0-3.mitel_patch
@@ -31,6 +31,10 @@ BuildArchitectures: noarch
 e-smith server and gateway - configure radius server
 
 %changelog
+* Thu Dec 07 2006 Shad L. Lords <slords@mail.com>
+- Update to new release naming.  No functional changes.
+- Make Packager generic
+
 * Wed Nov 30 2005 Gordon Rowell <gordonr@gormand.com.au> 1.0.0-12
 - Bump release number only
 
