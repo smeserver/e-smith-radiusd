@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - configure PPTP inbound VPN
 %define name e-smith-radiusd
 Name: %{name}
 %define version 1.0.0
-%define release 12
+%define release 13
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -17,6 +17,7 @@ Patch4: e-smith-radiusd-1.0.0-6.mitel_patch
 Patch5: e-smith-radiusd-1.0.0-7.mitel_patch
 Patch6: e-smith-radiusd-1.0.0-9.mitel_patch
 Patch7: e-smith-radiusd-1.0.0-11.mitel_patch
+Patch8: e-smith-radiusd-1.0.0-TemplateSplit.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: e-smith-base >= 4.13.16-27
 Requires: kernel => 2.4
@@ -31,6 +32,9 @@ BuildArchitectures: noarch
 e-smith server and gateway - configure radius server
 
 %changelog
+* Wed Mar 07 2007 Shad L. Lords <slords@mail.com> 1.0.0-13
+- Break up auth template to allow customization [SME: 2565]
+
 * Thu Dec 07 2006 Shad L. Lords <slords@mail.com>
 - Update to new release naming.  No functional changes.
 - Make Packager generic
@@ -100,6 +104,7 @@ e-smith server and gateway - configure radius server
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
+%patch8 -p1
 
 %build
 perl createlinks
