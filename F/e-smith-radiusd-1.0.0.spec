@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - configure PPTP inbound VPN
 %define name e-smith-radiusd
 Name: %{name}
 %define version 1.0.0
-%define release 14
+%define release 15
 Version: %{version}
 Release: %smerelease %{release}
 Packager: %{_packager}
@@ -19,6 +19,7 @@ Patch6: e-smith-radiusd-1.0.0-9.mitel_patch
 Patch7: e-smith-radiusd-1.0.0-11.mitel_patch
 Patch8: e-smith-radiusd-1.0.0-TemplateSplit.patch
 Patch9: e-smith-radiusd-1.0.0-clients.conf_perms.patch
+Patch10: e-smith-radiusd-1.0.0-servers_perm.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: e-smith-base >= 4.13.16-27
 Requires: kernel => 2.4
@@ -33,6 +34,9 @@ BuildArchitectures: noarch
 e-smith server and gateway - configure radius server
 
 %changelog
+* Fri Apr 06 2007 Shad L. Lords <slords@mail.com> 1.0.0-14
+- Fix perms on servers file [SME: 2720]
+
 * Fri Apr 06 2007 Shad L. Lords <slords@mail.com> 1.0.0-14
 - Fix perms on client.conf file [SME: 2708]
 
@@ -110,6 +114,7 @@ e-smith server and gateway - configure radius server
 %patch7 -p1
 %patch8 -p1
 %patch9 -p1
+%patch10 -p1
 
 %build
 perl createlinks
