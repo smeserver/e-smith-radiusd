@@ -10,7 +10,7 @@ diff -Nur -x '*.orig' -x '*.rej' e-smith-radiusd-1.0.0/root/etc/e-smith/template
 +	next unless ($pptpip);
 +
 +	$OUT .= <<HER2;
-+    Framed-IP-Address = $pptpip, Framed-Netmask = 255.255.255.255
++	Framed-IP-Address = $pptpip, Framed-Netmask = 255.255.255.255
 +HER2
      }
  }
