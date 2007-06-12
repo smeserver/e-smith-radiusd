@@ -1,0 +1,5 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-radiusd-1.0.0/root/etc/e-smith/templates.metadata/etc/radiusclient/servers mezzanine_patched_e-smith-radiusd-1.0.0/root/etc/e-smith/templates.metadata/etc/radiusclient/servers
+--- e-smith-radiusd-1.0.0/root/etc/e-smith/templates.metadata/etc/radiusclient/servers	1969-12-31 17:00:00.000000000 -0700
++++ mezzanine_patched_e-smith-radiusd-1.0.0/root/etc/e-smith/templates.metadata/etc/radiusclient/servers	2007-04-06 11:34:19.000000000 -0600
+@@ -0,0 +1 @@
++PERMS=0600

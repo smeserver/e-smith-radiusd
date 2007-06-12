@@ -1,0 +1,37 @@
+Index: e-smith-radiusd/createlinks
+diff -u e-smith-radiusd/createlinks:1.1.1.1 e-smith-radiusd/createlinks:1.2
+--- e-smith-radiusd/createlinks:1.1.1.1	Mon Jun 13 15:10:16 2005
++++ e-smith-radiusd/createlinks	Tue Jun 14 12:19:40 2005
+@@ -18,7 +18,13 @@
+     ));
+ }
+ 
+-foreach (qw(raddb/clients.conf raddb/eap.conf raddb/proxy.conf radiusclient/servers radiusclient/dictionary radiusclient/dictionary.microsoft))
++foreach (qw(
++    raddb/clients.conf
++    raddb/eap.conf
++    raddb/proxy.conf
++    radiusclient/servers
++    radiusclient/dictionary
++    radiusclient/dictionary.microsoft))
+ {
+     templates2events("/etc/$_", qw(
+ 	console-save
+@@ -43,3 +49,4 @@
+ }
+ 
+ safe_symlink("../daemontools", "root/etc/rc.d/init.d/supervise/radiusd");
++safe_symlink("../init.d/supervise/radiusd", "root/etc/rc.d/rc7.d/S70radiusd");
+Index: e-smith-radiusd/e-smith-radiusd.spec
+diff -u e-smith-radiusd/root/etc/e-smith/templates/etc/raddb/clients.conf/10localhost:1.1.1.1 e-smith-radiusd/root/etc/e-smith/templates/etc/raddb/clients.conf/10localhost:1.2
+--- e-smith-radiusd/root/etc/e-smith/templates/etc/raddb/clients.conf/10localhost:1.1.1.1	Mon Jun 13 15:10:16 2005
++++ e-smith-radiusd/root/etc/e-smith/templates/etc/raddb/clients.conf/10localhost	Tue Jun 14 12:19:40 2005
+@@ -46,7 +46,7 @@
+ 	#	other		# for all other types
+ 
+ 	#
+-}	nastype = other	# localhost isn't usually a NAS...
++}	nastype = other
+ {
+ 	#
+ 	#  The following two configurations are for future use.
