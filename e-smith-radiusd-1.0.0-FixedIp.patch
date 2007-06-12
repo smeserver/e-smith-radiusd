@@ -1,0 +1,16 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/users/20vpnusers mezzanine_patched_e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/users/20vpnusers
+--- e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/users/20vpnusers	2005-06-11 11:31:10.000000000 -0600
++++ mezzanine_patched_e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/users/20vpnusers	2007-05-18 07:44:40.000000000 -0600
+@@ -18,5 +18,12 @@
+ 	$OUT .= <<HERE;	
+ $name   Service-Type == Framed-User, Framed-Protocol == PPP
+ HERE
++
++	my $pptpip = $account->prop('PPTPIP');
++	next unless ($pptpip);
++
++	$OUT .= <<HER2;
++	Framed-IP-Address = $pptpip, Framed-Netmask = 255.255.255.255
++HER2
+     }
+ }

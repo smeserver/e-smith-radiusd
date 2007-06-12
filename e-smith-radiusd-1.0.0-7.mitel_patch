@@ -1,0 +1,146 @@
+Index: e-smith-radiusd/e-smith-radiusd.spec
+diff -u /dev/null e-smith-radiusd/root/etc/e-smith/templates/etc/raddb/radiusd.conf/25modules45acctUnique:1.1
+--- /dev/null	Mon Jul 18 14:00:43 2005
++++ e-smith-radiusd/root/etc/e-smith/templates/etc/raddb/radiusd.conf/25modules45acctUnique	Mon Jul 18 13:59:21 2005
+@@ -0,0 +1,13 @@
++{
++	# Create a unique accounting session Id.  Many NASes re-use or
++	# repeat values for Acct-Session-Id, causing no end of
++	# confusion.
++	#
++	#  This module will add a (probably) unique session id 
++	#  to an accounting packet based on the attributes listed
++	#  below found in the packet.  See doc/rlm_acct_unique for
++	#  more information.
++	#
++}	acct_unique \{
++		key = "User-Name, Acct-Session-Id, NAS-IP-Address, Client-IP-Address, NAS-Port"
++	\}
+Index: e-smith-radiusd/root/etc/e-smith/templates/etc/raddb/radiusd.conf/25modules50detail
+diff -u /dev/null e-smith-radiusd/root/etc/e-smith/templates/etc/raddb/radiusd.conf/25modules50detail:1.1
+--- /dev/null	Mon Jul 18 14:00:43 2005
++++ e-smith-radiusd/root/etc/e-smith/templates/etc/raddb/radiusd.conf/25modules50detail	Mon Jul 18 13:59:22 2005
+@@ -0,0 +1,36 @@
++{
++	# Write a detailed log of all accounting records received.
++	#
++}	detail \{
++{		#  Note that we do NOT use NAS-IP-Address here, as
++		#  that attribute MAY BE from the originating NAS, and
++		#  NOT from the proxy which actually sent us the
++		#  request.  The Client-IP-Address attribute is ALWAYS
++		#  the address of the client which sent us the
++		#  request.
++		#
++		#  The following line creates a new detail file for
++		#  every radius client (by IP address or hostname).
++		#  In addition, a new detail file is created every
++		#  day, so that the detail file doesn't have to go
++		#  through a 'log rotation'
++		#
++		#  If your detail files are large, you may also want
++		#  to add a ':%H' (see doc/variables.txt) to the end
++		#  of it, to create a new detail file every hour, e.g.:
++		#
++		#   ..../detail-%Y%m%d:%H
++		#
++		#  This will create a new detail file for every hour.
++		#
++}		detailfile = $\{logdir\}/accounting.log
++{
++		#
++		#  The Unix-style permissions on the 'detail' file.
++		#
++		#  The detail file often contains secret or private
++		#  information about users.  So by keeping the file
++		#  permissions restrictive, we can prevent unwanted
++		#  people from seeing that information.
++}		detailperm = 0600
++	\}
+Index: e-smith-radiusd/root/etc/e-smith/templates/etc/raddb/radiusd.conf/75preacct
+diff -u /dev/null e-smith-radiusd/root/etc/e-smith/templates/etc/raddb/radiusd.conf/75preacct:1.1
+--- /dev/null	Mon Jul 18 14:00:43 2005
++++ e-smith-radiusd/root/etc/e-smith/templates/etc/raddb/radiusd.conf/75preacct	Mon Jul 18 13:59:22 2005
+@@ -0,0 +1,17 @@
++{
++#
++#  Pre-accounting.  Decide which accounting type to use.
++#
++}preacct \{
++	preprocess
++{
++	#
++	#  Ensure that we have a semi-unique identifier for every
++	#  request, and many NAS boxes are broken.
++}	acct_unique
++{
++	#  Accounting requests are generally proxied to the same
++	#  home server as authentication requests.
++}	suffix
++	ntdomain
++\}
+Index: e-smith-radiusd/root/etc/e-smith/templates/etc/raddb/radiusd.conf/80accounting
+diff -u /dev/null e-smith-radiusd/root/etc/e-smith/templates/etc/raddb/radiusd.conf/80accounting:1.1
+--- /dev/null	Mon Jul 18 14:00:43 2005
++++ e-smith-radiusd/root/etc/e-smith/templates/etc/raddb/radiusd.conf/80accounting	Mon Jul 18 13:59:22 2005
+@@ -0,0 +1,11 @@
++{
++#
++#  Accounting.  Log the accounting data.
++#
++}accounting \{
++{	#
++	#  Create a 'detail'ed log of the packets.
++	#  Note that accounting requests which are proxied
++	#  are also logged in the detail file.
++}	detail
++\}
+Index: e-smith-radiusd/root/var/service/radiusd/run
+diff -u e-smith-radiusd/root/var/service/radiusd/run:1.1.1.1 e-smith-radiusd/root/var/service/radiusd/run:1.2
+--- e-smith-radiusd/root/var/service/radiusd/run:1.1.1.1	Mon Jun 13 15:10:16 2005
++++ e-smith-radiusd/root/var/service/radiusd/run	Mon Jul 18 13:59:22 2005
+@@ -1,6 +1,5 @@
+ #!/bin/sh
+ 
+-exec 2>&1
+ # Ensure that PRNG is adequately seeded.
+ [ -s /etc/raddb/certs/dh ] ||\
+   /usr/local/bin/envuidgid stunnel \
+@@ -11,4 +10,4 @@
+ # Configure cert
+ ./control/1
+ 
+-exec /usr/sbin/radiusd -s -f -x
++exec /usr/sbin/radiusd -f >&2
+Index: e-smith-radiusd/root/var/service/radiusd/log/run
+diff -u e-smith-radiusd/root/var/service/radiusd/log/run:1.1.1.1 e-smith-radiusd/root/var/service/radiusd/log/run:removed
+--- e-smith-radiusd/root/var/service/radiusd/log/run:1.1.1.1	Mon Jun 13 15:10:16 2005
++++ e-smith-radiusd/root/var/service/radiusd/log/run	Wed Dec 31 19:00:00 1969
+@@ -1,27 +0,0 @@
+-#!/bin/sh
+-
+-#----------------------------------------------------------------------
+-# copyright (C) 1999-2003 Mitel Networks Corporation
+-#
+-# This program is free software; you can redistribute it and/or modify
+-# it under the terms of the GNU General Public License as published by
+-# the Free Software Foundation; either version 2 of the License, or
+-# (at your option) any later version.
+-#
+-# This program is distributed in the hope that it will be useful,
+-# but WITHOUT ANY WARRANTY; without even the implied warranty of
+-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-# GNU General Public License for more details.
+-#
+-# You should have received a copy of the GNU General Public License
+-# along with this program; if not, write to the Free Software
+-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+-#
+-# Technical support for this program is available from Mitel Networks
+-# Please visit our web site www.mitel.com/sme/ for details.
+-#----------------------------------------------------------------------
+-
+-exec                                    \
+-    /usr/local/bin/setuidgid smelog     \
+-    /usr/local/bin/multilog t s5000000  \
+-    /var/log/radiusd
