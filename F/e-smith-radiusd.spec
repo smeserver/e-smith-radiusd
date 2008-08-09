@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - configure PPTP inbound VPN
 %define name e-smith-radiusd
 Name: %{name}
 %define version 1.0.0
-%define release 16
+%define release 17
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -22,7 +22,6 @@ Patch10: e-smith-radiusd-1.0.0-servers_perm.patch
 Patch11: e-smith-radiusd-1.0.0-FixedIp.patch 
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: e-smith-base >= 4.13.16-27
-Requires: kernel => 2.4
 Requires: e-smith-lib >= 1.15.1-16
 Requires: freeradius >= 1.0.1
 Requires: radiusclient >= 0.3.2
@@ -34,6 +33,9 @@ BuildArchitectures: noarch
 e-smith server and gateway - configure radius server
 
 %changelog
+* Sat Aug 09 2008 Gavin Weight <gweight@gmail.com> 1.0.0-17
+- Remove the Requires kernel =>2.4 line. [SME: 4483]
+
 * Fri May 18 2007 Federico Simoncelli <federico.simoncelli@gmail.com>
 - Added support for fixed ip addresses in the pptp vpn [SME: 1230]
 
