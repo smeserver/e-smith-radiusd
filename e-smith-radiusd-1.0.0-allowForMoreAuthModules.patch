@@ -1,0 +1,85 @@
+diff -Nur -x '*.orig' -x '*.rej' e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/70authenticate00setup mezzanine_patched_e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/00setup10authModules
+--- e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/70authenticate00setup	1970-01-01 01:00:00.000000000 +0100
++++ mezzanine_patched_e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/70authenticate00setup	2008-08-20 21:41:11.000000000 +0200
+@@ -0,0 +1,5 @@
++{
++    my @authModules = '';
++    $OUT = '';
++}
++
+diff -Nur -x '*.orig' -x '*.rej' e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/70authenticate10AuthMsChap mezzanine_patched_e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/00setup20AuthMsChap
+--- e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/70authenticate10AuthMsChap	1970-01-01 01:00:00.000000000 +0100
++++ mezzanine_patched_e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/70authenticate10AuthMsChap	2008-08-20 21:41:13.000000000 +0200
+@@ -0,0 +1,5 @@
++{
++    push(@authModules, "\tAuth-Type MS-CHAP\{\n\t\tmschap\n\t\}\n");
++    $OUT = '';
++}
++
+diff -Nur -x '*.orig' -x '*.rej' e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/70authenticate20authEap mezzanine_patched_e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/00setup25authEap
+--- e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/70authenticate20authEap	1970-01-01 01:00:00.000000000 +0100
++++ mezzanine_patched_e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/70authenticate20authEap	2008-08-20 21:41:14.000000000 +0200
+@@ -0,0 +1,4 @@
++{
++    push(@authModules, "\teap\n");
++    $OUT = '';
++}
+diff -Nur -x '*.orig' -x '*.rej' e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/70authenticate mezzanine_patched_e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/70authenticate
+--- e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/70authenticate	2005-06-11 20:45:20.000000000 +0200
++++ mezzanine_patched_e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/70authenticate	1970-01-01 01:00:00.000000000 +0100
+@@ -1,28 +0,0 @@
+-{
+-#  Authentication.
+-#
+-#  This section lists which modules are available for authentication.
+-#  Note that it does NOT mean 'try each module in order'.  It means
+-#  that a module from the 'authorize' section adds a configuration
+-#  attribute 'Auth-Type := FOO'.  That authentication type is then
+-#  used to pick the apropriate module from the list below.
+-#
+-#  In general, you SHOULD NOT set the Auth-Type attribute.  The server
+-#  will figure it out on its own, and will do the right thing.  The
+-#  most common side effect of erroneously setting the Auth-Type
+-#  attribute is that one authentication method will work, but the
+-#  others will not.
+-#
+-#  The common reasons to set the Auth-Type attribute by hand
+-#  is to either forcibly reject the user, or forcibly accept him.
+-}
+-authenticate \{
+-{
+-	#  MSCHAP authentication.
+-}	Auth-Type MS-CHAP \{
+-		mschap
+-	\}
+-{
+-	#  Allow EAP authentication.
+-}	eap
+-\}
+diff -Nur -x '*.orig' -x '*.rej' e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/70authenticate99process mezzanine_patched_e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/70authenticate99process
+--- e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/70authenticate99process	1970-01-01 01:00:00.000000000 +0100
++++ mezzanine_patched_e-smith-radiusd-1.0.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/70authenticate99process	2008-08-20 21:59:30.000000000 +0200
+@@ -0,0 +1,23 @@
++{
++#  Authentication.
++#
++#  This section lists which modules are available for authentication.
++#  Note that it does NOT mean 'try each module in order'.  It means
++#  that a module from the 'authorize' section adds a configuration
++#  attribute 'Auth-Type := FOO'.  That authentication type is then
++#  used to pick the apropriate module from the list below.
++#
++#  In general, you SHOULD NOT set the Auth-Type attribute.  The server
++#  will figure it out on its own, and will do the right thing.  The
++#  most common side effect of erroneously setting the Auth-Type
++#  attribute is that one authentication method will work, but the
++#  others will not.
++#
++#  The common reasons to set the Auth-Type attribute by hand
++#  is to either forcibly reject the user, or forcibly accept him.
++
++    $OUT = "authenticate \{\n";
++    $OUT .= "$_\n" foreach @authModules;
++    $OUT .= "\}\n";
++
++}
