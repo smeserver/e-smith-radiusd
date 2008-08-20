@@ -2,7 +2,7 @@ Summary: e-smith server and gateway - configure PPTP inbound VPN
 %define name e-smith-radiusd
 Name: %{name}
 %define version 1.0.0
-%define release 17
+%define release 18
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
@@ -20,6 +20,7 @@ Patch8: e-smith-radiusd-1.0.0-TemplateSplit.patch
 Patch9: e-smith-radiusd-1.0.0-clients.conf_perms.patch
 Patch10: e-smith-radiusd-1.0.0-servers_perm.patch
 Patch11: e-smith-radiusd-1.0.0-FixedIp.patch 
+Patch12: e-smith-radiusd-1.0.0-allowForMoreAuthModules.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: e-smith-base >= 4.13.16-27
 Requires: e-smith-lib >= 1.15.1-16
@@ -33,6 +34,9 @@ BuildArchitectures: noarch
 e-smith server and gateway - configure radius server
 
 %changelog
+* Wed Aug 20 2008 Jonathan Martens <smeserver-contribs@snetram.nl> 1.0.0-18
+- Allow for multiple auth modules in radiusd.conf [SME: 4166]
+
 * Sat Aug 09 2008 Gavin Weight <gweight@gmail.com> 1.0.0-17
 - Remove the Requires kernel =>2.4 line. [SME: 4483]
 
@@ -124,6 +128,7 @@ e-smith server and gateway - configure radius server
 %patch9 -p1
 %patch10 -p1
 %patch11 -p1
+%patch12 -p1
 
 %build
 perl createlinks
