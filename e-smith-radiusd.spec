@@ -40,7 +40,7 @@ e-smith server and gateway - configure radius server
 * Sat Aug 09 2008 Gavin Weight <gweight@gmail.com> 1.0.0-17
 - Remove the Requires kernel =>2.4 line. [SME: 4483]
 
-* Fri May 18 2007 Federico Simoncelli <federico.simoncelli@gmail.com>
+* Fri May 18 2007 Federico Simoncelli <federico.simoncelli@gmail.com> 1.0.0-16
 - Added support for fixed ip addresses in the pptp vpn [SME: 1230]
 
 * Sun Apr 29 2007 Shad L. Lords <slords@mail.com>
