@@ -1,26 +1,15 @@
+# $Id: e-smith-radiusd.spec,v 1.5 2008/10/07 19:18:14 slords Exp $
+
 Summary: e-smith server and gateway - configure PPTP inbound VPN
 %define name e-smith-radiusd
 Name: %{name}
-%define version 1.0.0
-%define release 18
+%define version 2.2.0
+%define release 1
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
-Patch0: e-smith-radiusd-1.0.0-2.mitel_patch
-Patch1: e-smith-radiusd-1.0.0-3.mitel_patch
-Patch2: e-smith-radiusd-1.0.0-4.mitel_patch
-Patch3: e-smith-radiusd-1.0.0-5.mitel_patch
-Patch4: e-smith-radiusd-1.0.0-6.mitel_patch
-Patch5: e-smith-radiusd-1.0.0-7.mitel_patch
-Patch6: e-smith-radiusd-1.0.0-9.mitel_patch
-Patch7: e-smith-radiusd-1.0.0-11.mitel_patch
-Patch8: e-smith-radiusd-1.0.0-TemplateSplit.patch
-Patch9: e-smith-radiusd-1.0.0-clients.conf_perms.patch
-Patch10: e-smith-radiusd-1.0.0-servers_perm.patch
-Patch11: e-smith-radiusd-1.0.0-FixedIp.patch 
-Patch12: e-smith-radiusd-1.0.0-allowForMoreAuthModules.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: e-smith-base >= 4.13.16-27
 Requires: e-smith-lib >= 1.15.1-16
@@ -34,6 +23,9 @@ BuildArchitectures: noarch
 e-smith server and gateway - configure radius server
 
 %changelog
+* Tue Oct 7 2008 Shad L. Lords <slords@mail.com> 2.2.0-1.sme
+- Roll new stream to separate sme7/sme8 trees [SME: 4633]
+
 * Wed Aug 20 2008 Jonathan Martens <smeserver-contribs@snetram.nl> 1.0.0-18
 - Allow for multiple auth modules in radiusd.conf [SME: 4166]
 
@@ -116,19 +108,6 @@ e-smith server and gateway - configure radius server
 
 %prep
 %setup
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
-%patch8 -p1
-%patch9 -p1
-%patch10 -p1
-%patch11 -p1
-%patch12 -p1
 
 %build
 perl createlinks
