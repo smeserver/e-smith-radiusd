@@ -1,0 +1,37 @@
+diff -up e-smith-radiusd-2.2.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/25modules30ldap.add_ldap_auth e-smith-radiusd-2.2.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/25modules30ldap
+--- e-smith-radiusd-2.2.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/25modules30ldap.add_ldap_auth	2010-10-27 09:45:33.000000000 -0600
++++ e-smith-radiusd-2.2.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/25modules30ldap	2010-10-27 09:41:32.000000000 -0600
+@@ -0,0 +1,24 @@
++{
++
++    use esmith::util;
++    $OUT = '';
++
++    $pw = esmith::util::LdapPassword();
++    $base = esmith::util::ldapBase ($DomainName);
++
++}	ldap \{
++		server = "localhost"
++		identity = "cn=root,{ $base }"
++		password = { $pw }
++		basedn = "{ $base }"
++		filter = "(&(objectClass=posixAccount)(uid=%\{Stripped-User-Name:-%\{User-Name\}\}))"
++		ldap_connections_number = 5
++		timeout = 4
++		timelimit = 3
++		net_timeout = 3
++		tls \{
++			start_tls = no
++		\}
++		groupname_attribute = cn
++		groupmembership_filter = "(&(objectClass=posixGroup)(memberUid=%\{Stripped-User-Name:-%\{User-Name\}\}))"
++	\}
+diff -up e-smith-radiusd-2.2.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/70authenticate15ldap.add_ldap_auth e-smith-radiusd-2.2.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/70authenticate15ldap
+--- e-smith-radiusd-2.2.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/70authenticate15ldap.add_ldap_auth	2010-10-27 09:45:33.000000000 -0600
++++ e-smith-radiusd-2.2.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/70authenticate15ldap	2010-10-27 09:43:45.000000000 -0600
+@@ -0,0 +1,5 @@
++{
++    push(@authModules, "\tAuth-Type LDAP\{\n\t\tldap\n\t\}\n");
++    $OUT = '';
++}
++

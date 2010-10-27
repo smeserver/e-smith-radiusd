@@ -1,16 +1,17 @@
-# $Id: e-smith-radiusd.spec,v 1.6 2009/06/02 15:59:38 slords Exp $
+# $Id: e-smith-radiusd.spec,v 1.7 2010/10/27 15:47:12 slords Exp $
 
 Summary: e-smith server and gateway - configure PPTP inbound VPN
 %define name e-smith-radiusd
 Name: %{name}
 %define version 2.2.0
-%define release 2
+%define release 3
 Version: %{version}
 Release: %{release}%{?dist}
 License: GPL
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
 Patch0: e-smith-radiusd-2.2.0-perms.patch
+Patch1: e-smith-radiusd-2.2.0-add_ldap_auth.patch
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
 Requires: e-smith-base >= 4.13.16-27
 Requires: e-smith-lib >= 1.15.1-16
@@ -24,6 +25,9 @@ BuildArchitectures: noarch
 e-smith server and gateway - configure radius server
 
 %changelog
+* Tue Oct 27 2010 Shad L. Lords <slords@mail.com> 2.2.0-3.sme
+- Add ldap as an auth type to radius [SME: 6313]
+
 * Tue Jun 2 2009 Shad L. Lords <slords@mail.com> 2.2.0-2.sme
 - Fix owner/perms for radius files [SME: 5317]
 
@@ -113,6 +117,7 @@ e-smith server and gateway - configure radius server
 %prep
 %setup
 %patch0 -p1
+%patch1 -p1
 
 %build
 perl createlinks
