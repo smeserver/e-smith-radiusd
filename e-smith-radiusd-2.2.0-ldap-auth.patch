@@ -1,0 +1,24 @@
+diff -up e-smith-radiusd-2.2.0/createlinks.ldap-auth e-smith-radiusd-2.2.0/createlinks
+--- e-smith-radiusd-2.2.0/createlinks.ldap-auth	2008-10-07 11:37:19.000000000 -0600
++++ e-smith-radiusd-2.2.0/createlinks	2010-11-01 10:14:07.000000000 -0600
+@@ -19,6 +19,7 @@ foreach (qw(raddb/radiusd.conf raddb/use
+ 	user-modify-admin
+     ));
+ }
++templates2events("/etc/raddb/radiusd.conf", "bootstrap-ldap-save");
+ 
+ foreach (qw(
+     raddb/clients.conf
+diff -up e-smith-radiusd-2.2.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/65authorization40default.ldap-auth e-smith-radiusd-2.2.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/65authorization40default
+--- e-smith-radiusd-2.2.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/65authorization40default.ldap-auth	2008-10-07 11:37:19.000000000 -0600
++++ e-smith-radiusd-2.2.0/root/etc/e-smith/templates/etc/raddb/radiusd.conf/65authorization40default	2010-11-01 10:12:32.000000000 -0600
+@@ -32,7 +32,8 @@
+ 	#  If you are using /etc/smbpasswd, and are also doing
+ 	#  mschap authentication, the un-comment this line, and
+ 	#  configure the 'smbpasswd' module, above.
+-}	smbpasswd
++        ( $ldap{Authentication} || 'disabled' ) eq 'enabled' ? 'ldap' : 'smbpasswd';
++}	
+ {	
+ 	#  Read the 'users' file
+ }	files
